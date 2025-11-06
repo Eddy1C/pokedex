@@ -1,3 +1,4 @@
+
 export function ListaDeFuego() {  
     const pokemonesDeFuego = [
         { nombre: 'Charmander', numero: 4 },
@@ -7,18 +8,37 @@ export function ListaDeFuego() {
         { nombre: 'Magmar', numero: 126 },
     ];
 
-    return (
-        <div>
-            <h2>Pokémon de tipo Fuego</h2>  
-            <ul>
-                {pokemonesDeFuego.map((pokemon) => (
-                    <li key={pokemon.numero}>
-                        {pokemon.numero} - {pokemon.nombre}
-                    </li>
-                ))}
-            </ul>
+     const handleClick = (pokemon) => {
+    alert(`Has hecho clic en ${pokemon.nombre}`);
+  };
+
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+      {pokemonesDeFuego.map((pokemon) => (
+        <div
+          key={pokemon.numero}
+          onClick={() => handleClick(pokemon)}
+          style={{
+            border: '2px solid #ccc',
+            borderRadius: '8px',
+            padding: '10px',
+            width: '150px',
+            cursor: 'pointer',
+            backgroundColor: '#f8f8f8',
+            boxShadow: '2px 2px 8px rgba(0,0,0,0.1)',
+            textAlign: 'center',
+            transition: 'transform 0.2s',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          <h4>{pokemon.nombre}</h4>
+          <p>N° {pokemon.numero}</p>
+          <p>Tipo: {pokemon.tipo}</p>
         </div>
-    );
+      ))}
+    </div>
+  );
 }
 
 
@@ -265,4 +285,21 @@ export function ListaDeRoca() {
     );
 }
 
-
+export const todosLosPokemones = [
+        {nombre: 'Charmander', numero: 4, tipo: 'Fuego', generacion: "kanto", imagenUrl: 'https//marriland.com/wp-content/plugins/marriland-core/images/pokemon/sprites/home/full/charmander.png', },  
+        {nombre: 'Vulpix', numero: 37, tipo: 'Fuego', generacion: "kanto"},
+        {nombre: 'Growlithe', numero: 58, tipo: 'Fuego', generacion: "Alola"},
+        {nombre: 'Ponyta', numero: 77, tipo: 'Fuego', generacion: "hoenn"},
+        {nombre: 'Magmar', numero: 126, tipo: 'Fuego', generacion: "teselia"},
+        {nombre: 'Squirtle', numero: 7, tipo: 'Agua', generacion: "kanto"},
+        {nombre: 'Bulbasaur', numero: 1, tipo: 'Planta', generacion: "kanto"},
+        {nombre: 'Pikachu', numero: 25, tipo: 'Eléctrico', generacion: "kanto"},
+        {nombre: 'Jynx', numero: 124, tipo: 'Hielo', generacion: "johto"},
+        {nombre: 'Machop', numero: 66, tipo: 'Lucha', generacion: "kanto"},
+        {nombre: 'Ekans', numero: 23, tipo: 'Veneno', generacion: "kanto"},
+        {nombre: 'Sandshrew', numero: 27, tipo: 'Tierra', generacion: "kanto"},
+        {nombre: 'Pidgey', numero: 16, tipo: 'Volador', generacion: "kanto"},
+        {nombre: 'Abra', numero: 63, tipo: 'Psíquico', generacion: "kanto"},
+        {nombre: 'Caterpie', numero: 10, tipo: 'Bicho', generacion: "kanto"},
+        {nombre: 'Geodude', numero: 74, tipo: 'Roca', generacion: "kanto"},
+    ];
