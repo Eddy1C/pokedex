@@ -1,288 +1,96 @@
 import './App.css';
-import { useState } from 'react';
-import { ListaDeAgua, ListaDeBicho, ListaDeElectrico, ListaDeFuego, ListaDeHielo, ListaDeLucha, ListaDePlanta, 
-  ListaDePsíquico, ListaDeTierra, ListaDeVeneno, ListaDeVolador, ListaDeRoca,} from './pokemon';
-import { todosLosPokemones } from '././pokemon';
-function App() {
-  return (
-  <>
-    <Menu />
-    <BuscarPokemon />
-    <FiltrarPorGeneracion/>
-    <FiltroPorTipo />
-  </>
-  );
+import { useEffect, useState } from 'react';
+import { InformacionPokemon } from './informacionPokemon';
+import { PokeList } from '././pokemon';
 
-}
 
-function FiltrarPorGeneracion() {
-  const [filtroGeneracion, setFiltroGeneracion] = useState('Seleccionar generación');
-  const generaciones = ['kanto', 'johto', 'hoenn', 'Tinnoh', 'Teselia', 'Kalos', 'Alola', 'Galar'];
-  
-  const handleChange = (event) => {
-    setFiltroGeneracion(event.target.value);
-  } 
-  const pokemonesFiltrados =
-    filtroGeneracion === ''
-      ? []
-      : todosLosPokemones.filter(p => p.generacion === filtroGeneracion);
-
-      const handleClick = (pokemon) => {
-          alert(`Has hecho clic en ${pokemon.nombre}`);
-         }
  
+
+function App() {
+
+  const [busqueda, setBusqueda] = useState("");
+  //const [tipo, setTipo] = useState(""); 
+  //const [generacion, setGeneracion] = useState(""); 
+  const [pokemonActual, setPokemonActual] = useState(null);
+  const [pokemones, setPokemones] = useState([]); 
+
+  const pokemonesFiltrados = pokemones.filter(pokemon => {
+    const coincideNombre = pokemon.name.toLowerCase().includes(busqueda.toLowerCase()); 
+    /*const coincideNumero = pokemon.numero.toString().includes(busqueda); 
+    const coincideTipo = tipo ? pokemon.tipo.toLowerCase() === tipo.toLowerCase(): true; 
+    const coincideGeneracion = generacion ? pokemon.generacion.toLowerCase() === generacion.toLowerCase() : true; 
+    return (coincideNombre || coincideNumero) && coincideTipo && coincideGeneracion; */
+    return coincideNombre; 
+  });
+    function BuscarPokemon() {
     return (
-
-    <div>
-      <div className='filtrar'>
-      <select value={filtroGeneracion} onChange={handleChange}>
-        <option value="">Seleccionar generación</option>
-        {generaciones.map((generacion) => (
-          <option key={generacion} value={generacion}>
-            {generacion}
-          </option>
-        ))}
-      </select>
-        
-      <p> {filtroGeneracion}</p>
+      <div>
+        <h3>Buscar Pokémon</h3>
+        <input
+          type="text"
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+        />
       </div>
-      <ul>
-        <div className='listaGeneracion' >
-          {pokemonesFiltrados.map((pokemon) => (  
+    );
+  }
 
-        <div className='styleList'
-          key={pokemon.numero} 
-          onClick={() => handleClick(pokemon)}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-        >
-            <h4>{pokemon.nombre}</h4>
-            <img
-            src={pokemon.imagenUrl}
-            style={{ width: '20px' }}
-            ></img>
-            <p>N° {pokemon.numero}</p>
-            <p>Tipo: {pokemon.tipo}</p>
-            <p>Generación: {pokemon.generacion}</p>
-            
-        </div>
-        ))
-        }
-        </div>
-      </ul>
-    </div>
-  );
+  const handleClick = (pokemon) => {
+            setPokemonActual(pokemon); 
+         }
+
+    return (
+      <>
+      <h1>Pokedex</h1>
+      {!pokemonActual ? (
+  <>
+    <BuscarPokemon busqueda={busqueda} setBusqueda={setBusqueda} />
+    <PokeList />
+  </>
+) : (
+  <InformacionPokemon
+    pokemon={pokemonActual}
+    volver={() => setPokemonActual(null)}
+  />
+)}
+
+  </>
+    ); 
 }
 
-function FiltroPorTipo() {
-  const [filtroTipo, setFiltroTipo] = useState('Seleccionar tipo');
-
+function FiltrarPorTipo({ tipo, setTipo }) {
   const tipos = [
-    'Fuego', 'Agua', 'Planta', 'Eléctrico', 'Hielo', 'Lucha', 'Veneno',
-    'Tierra', 'Volador', 'Psíquico', 'Bicho', 'Roca'
+    'Fuego', 'Agua', 'Planta', 'Eléctrico', 'Hielo',
+    'Lucha', 'Veneno', 'Tierra', 'Volador', 'Psíquico', 'Bicho', 'Roca'
   ];
 
-  const handleChange = (event) => setFiltroTipo(event.target.value);
-
-  const pokemonesFiltrados =
-    filtroTipo === 'Seleccionar tipo'
-      ? []
-      : todosLosPokemones.filter(p => p.tipo === filtroTipo);
-
-      const handleClick = (pokemon) => {
-          alert(`Has hecho clic en ${pokemon.nombre}`);
-         }
-
   return (
-
     <div>
-      <div className='filtrar'>
-      
-      <select value={filtroTipo} onChange={handleChange}>
-        <option value="">Seleccionar Tipo</option>
-        {tipos.map((tipo) => (
-          <option key={tipo} value={tipo}>
-            {tipo}
-          </option>
+      <h3>Filtrar por tipo</h3>
+      <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
+        <option value=''>Todos los tipos</option>
+        {tipos.map((t) => (
+          <option key={t} value={t}>{t}</option>
         ))}
       </select>
-        
-      <p> {filtroTipo}</p>
-      </div>
-      <ul>
-        <div className='listaGeneracion' >
-          {pokemonesFiltrados.map((pokemon) => (  
-
-        <div className='styleList'
-          key={pokemon.numero} 
-          onClick={() => handleClick(pokemon)}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-        >
-            <h4>{pokemon.nombre}</h4>
-            <p>N° {pokemon.numero}</p>
-            <p>Tipo: {pokemon.tipo}</p>
-            <p>Generación: {pokemon.generacion}</p>
-            
-        </div>
-        ))
-        }
-        </div>
-      </ul>
-    </div>
-  );
-}
-  
-function Menu() {
-  const [mostrar, setMostrar] = useState(false);
-  return (
-    <div>
-      <h1>Bienvenido</h1>
-      <button onClick={() => setMostrar(!mostrar)}>
-        {mostrar ? 'Ocultar Pokémon' : 'Listar Pokémones'}
-      </button>
-
-      {mostrar && <ListarTodos />}
     </div>
   );
 }
 
-function ListarTodos() {
-  return (
-    <div>
-      <h2>Lista de todos los Pokémon</h2>
-      <ListaDeFuego /> 
-      <ListaDeAgua />
-      <ListaDePlanta />
-      <ListaDeElectrico />
-      <ListaDeHielo />
-      <ListaDeLucha />
-      <ListaDeVeneno />
-      <ListaDeTierra />
-      <ListaDeVolador />
-      <ListaDePsíquico />
-      <ListaDeBicho />
-      <ListaDeRoca />
-    </div>
-  );
-} 
-
-function BuscarPokemon() {
-  const [busqueda, setBusqueda] = useState('');
-
-  const buscarPorNombre = todosLosPokemones.filter(p =>
-    p.nombre.toLowerCase().includes(busqueda.toLowerCase())
-  );
-  
-  const buscarPorNumero = busqueda ===''
-  ? [] // si no hay búsqueda, no mostrar nada
-  : todosLosPokemones.filter(p =>
-      p.numero.toString().includes(busqueda)
-  );
-
-  const buscarPorTipo = busqueda === ''
-  ? [] // si no hay búsqueda, no mostrar nada
-  : todosLosPokemones.filter(p =>
-      p.tipo.toLowerCase().includes(busqueda.toLowerCase())
-    );
-
-  const buscarPorGeneracion = busqueda === ''
-  ? [] // si no hay búsqueda, no mostrar nada
-  : todosLosPokemones.filter(p =>
-      p.generacion.toLowerCase().includes(busqueda.toLowerCase())
-  );
-
-
-const handleClick = (pokemon) => {
-          alert(`Has hecho clic en ${pokemon.nombre}`);
-         }
+function FiltrarPorGeneracion({ generacion, setGeneracion }) {
+  const generaciones = ['kanto', 'johto', 'hoenn', 'teselia', 'kalos', 'alola', 'galar'];
 
   return (
     <div>
-    <div className='filtrar'>
-      <h2>Buscar Pokémon por nombre</h2>
-      <input 
-        type="text"
-        value={busqueda}
-        onChange={(e) => setBusqueda(e.target.value)}
-      />
-      </div>
-      <ul>
-        <div className='listaGeneracion'>
-        {buscarPorNombre.map((pokemon)=> (
-
-        <div className='styleList'
-          key={pokemon.numero}
-          onClick={() => handleClick(pokemon)}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
-          <h4>{pokemon.nombre}</h4>
-            <p>N° {pokemon.numero}</p>
-            <p>Tipo: {pokemon.tipo}</p>
-            <p>Generación: {pokemon.generacion}</p>
-          </div>
-        ))
-        }
-        </div>
-      </ul>
-
-      <ul>
-        <div className='listaGeneracion'>
-        {buscarPorNumero.map((pokemon)=> (
-          <div className='styleList'
-          key={pokemon.numero}
-          onClick={() => handleClick(pokemon)}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
-          <h4>{pokemon.nombre}</h4>
-            <p>N° {pokemon.numero}</p>
-            <p>Tipo: {pokemon.tipo}</p>
-            <p>Generación: {pokemon.generacion}</p>
-          </div>
+      <h3>Filtrar por generación</h3>
+      <select value={generacion} onChange={(e) => setGeneracion(e.target.value)}>
+        <option value=''>Todas las generaciones</option>
+        {generaciones.map((g) => (
+          <option key={g} value={g}>{g}</option>
         ))}
-        </div>
-      </ul>
-
-      <ul>
-        <div className='listaGeneracion'>
-        {buscarPorTipo.map((pokemon)=> (
-          <div className='styleList'
-          key={pokemon.numero}
-          onClick={() => handleClick(pokemon)}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
-          <h4>{pokemon.nombre}</h4>
-            <p>N° {pokemon.numero}</p>
-            <p>Tipo: {pokemon.tipo}</p>
-            <p>Generación: {pokemon.generacion}</p>
-          </div>
-        ))}
-        </div>
-      </ul>
-      
-      <ul>
-        <div className='listaGeneracion'>
-        {buscarPorGeneracion.map((pokemon)=> (
-          <div className='styleList'
-          key={pokemon.numero} 
-          onClick={() => handleClick(pokemon)}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
-          <h4>{pokemon.nombre}</h4>
-            <p>N° {pokemon.numero}</p>
-            <p>Tipo: {pokemon.tipo}</p>
-            <p>Generación: {pokemon.generacion}</p>
-          </div>
-        ))}
-        </div>
-      </ul>
+      </select>
     </div>
   );
 }
 
 export default App;
-
