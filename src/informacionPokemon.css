@@ -1,0 +1,37 @@
+
+.pokemon-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.circulo-animado {
+  position: absolute;
+  top: 44%;
+  left: 55%;
+  width: 450px;
+  height: 445px;
+  border-radius: 400%;
+  transform: translate(100%, 100%);
+  border: 100px ;
+  border-top: 25px solid #00ffff; 
+  border-image: linear-gradient (45deg, red, orange, yellow, green, cyan, blue, violet);
+  animation: girar 1.3s linear infinite, rgbGlow 3s linear infinite;
+  z-index: 1;  
+}
+
+@keyframes girar {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes rgbGlow {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+  
+}

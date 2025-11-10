@@ -14,23 +14,56 @@
     text-align: center; 
     text-transform: capitalize;     
   }
-
+/*
 .styleList {
   border: 2px solid #ccc;
   border-radius: 11px;
-  border-color: #61dafb;
+  border-color: #c72c8c;
+  background:""; 
   padding: 10px;
   margin: 10px;
   width: 150px;
   cursor: pointer;
   text-align: center;
-  box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+  box-shadow: 2px 2px 12px rgba(129, 3, 3, 0.1);
   transition: transform 0.2s; 
   max-width: 300px;
   width: fit-content;
   padding: 50px;
   margin: 50px auto;
+}*/
+
+
+.styleList {
+  border: 2px solid rgba(255, 0, 0, 0.3); 
+  border-radius: 20px; 
+  background: linear-gradient(45deg, rgb(180, 3, 3), orange, cyan, blue, violet, rgb(194, 0, 0));
+  background-size: 400% 400%;
+  animation: rainbowGlow 6s linear infinite;
+  padding: 20px;
+  margin: 20px auto;
+  width: 180px; 
+  cursor: pointer;
+  text-align: center;
+  
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 
+              0 0 10px rgba(132, 177, 114, 0.6); 
+  
+  transition: transform 0.2s, box-shadow 0.3s; 
 }
+
+.styleList:hover {
+  transform: translateY(-40px); 
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 
+              0 0 20px rgba(132, 177, 114, 0.8); 
+}
+
+@keyframes rainbowGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 
 .listaGeneracion{
     display: flex; 
@@ -41,14 +74,16 @@
 .buscar{
     display: flex; 
     flex-wrap: wrap; 
-    gap: 10px;
-    border-radius: 8px;  
-    padding: 10px; 
-    margin: 10px auto;
-    background-color: black;  
-    background-size: -50px; 
+    gap: 12px;
+    border-radius: 6%;  
+    padding: 1%; 
+    margin: auto;
+    box-shadow: 2px 2px 12px rgba(121, 2, 2, 0.726);
+    background-size: -40px; 
+    background-color: rgb(10, 119, 119);
     text-align: center; 
-    text-transform: capitalize;   
+    text-transform: lowercase;   
+    animation: rgbGlow 3s infinite alternate;
 }
 
 .listaGeneral{

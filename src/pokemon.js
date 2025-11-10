@@ -1,27 +1,17 @@
 import { useEffect, useState } from "react";
 
-export const todosLosPokemones = [
-        {nombre: 'Charmander', numero: 4, tipo: 'Fuego', generacion: "kanto", imagenUrl: 'https://marriland.com/wp-content/plugins/marriland-core/images/pokemon/sprites/home/full/charmander.png', estadisticas: "20% Fuerza"},  
-        {nombre: 'Vulpix', numero: 37, tipo: 'Fuego', generacion: "kanto"},
-        {nombre: 'Growlithe', numero: 58, tipo: 'Fuego', generacion: "Alola"},
-        {nombre: 'Ponyta', numero: 77, tipo: 'Fuego', generacion: "hoenn"},
-        {nombre: 'Magmar', numero: 126, tipo: 'Fuego', generacion: "teselia"},
-        {nombre: 'Squirtle', numero: 7, tipo: 'Agua', generacion: "kanto"},
-        {nombre: 'Bulbasaur', numero: 1, tipo: 'Planta', generacion: "kanto"},
-        {nombre: 'Pikachu', numero: 25, tipo: 'Eléctrico', generacion: "kanto"},
-        {nombre: 'Jynx', numero: 124, tipo: 'Hielo', generacion: "johto"},
-        {nombre: 'Machop', numero: 66, tipo: 'Lucha', generacion: "kanto"},
-        {nombre: 'Ekans', numero: 23, tipo: 'Veneno', generacion: "kanto"},
-        {nombre: 'Sandshrew', numero: 27, tipo: 'Tierra', generacion: "kanto"},
-        {nombre: 'Pidgey', numero: 16, tipo: 'Volador', generacion: "kanto"},
-        {nombre: 'Abra', numero: 63, tipo: 'Psíquico', generacion: "kanto"},
-        {nombre: 'Caterpie', numero: 10, tipo: 'Bicho', generacion: "kanto"},
-        {nombre: 'Geodude', numero: 74, tipo: 'Roca', generacion: "kanto"},
-    ];
-
-
-export function PokeList({ onDataLoaded }) {
+export function PokeList({ onDataLoaded, onPokemonSelect }) {
   const [pokemones, setPokemones] = useState([]);
+  const [busqueda, setBusqueda] = useState(""); 
+  const [tipos, SetTipos] = useState(""); 
+
+  const types= [
+    'normal', 'fire', 'water', 'grass', 'electric', 'ice',
+    'fighting', 'poison', 'ground', 'flying', 'psychic',
+    'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'
+  ];
+
+
 useEffect(() => {
   fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
     .then(res => res.json())
@@ -31,29 +21,67 @@ useEffect(() => {
           const res = await fetch(p.url);
           const info = await res.json();
           return {
+            id: info.id,
             name: info.name,
-            image: info.sprites.front_default
+            image: info.sprites.front_default,
+            height: info.height,
+            weight: info.weight,
+            base_experience: info.base_experience,
+            types: info.types.map(t => t.type.name),
+            abilities: info.abilities.map(a => a.ability.name),
+            stats: info.stats.map(s => ({
+            name: s.stat.name,
+            value: s.base_stat
+            }))
           };
         })
       );
       console.log("Datos obtenidos de la API:", detalles);
       setPokemones(detalles);
+      if(onDataLoaded) onDataLoaded(detalles);
     })
     .catch(err => console.error(err));
 }, []);
+    const pokemonesFiltrados = pokemones.filter((p) => {
+  const coincideNombre = p.name.toLowerCase().includes(busqueda.toLowerCase());
+  const coincideId = p.id.toString().includes(busqueda); 
+  const coincideTipo = tipos ? p.types.includes(tipos.toLowerCase()) : true;
+  return (coincideNombre || coincideId) && coincideTipo;
+});
 
+    
  return (
     <div className="listaGeneracion">
+      <div className='buscar'>
+      <input
+      type="text"
+        placeholder="Buscar Pokémon"
+        value={busqueda}
+        onChange={(e) => setBusqueda(e.target.value)} 
+      />
+        <select value={tipos} onChange={(ty) => SetTipos(ty.target.value)} >
+          <option value=''>Todos los Tipos</option>
+          {types.map((ty) => (
+          <option key={ty} value={ty}>{ty}</option>
+           ))}
+      </select>
+      </div>
       {pokemones.length === 0 ? (
         <p>Cargando Pokémon...</p>
-      ) : (
-        pokemones.map(pokemon => (
-          <div key={pokemon.name} className="styleList">
+      ) : ( 
+        pokemonesFiltrados.map(pokemon => (
+          <div key={pokemon.name || pokemon.id} className="styleList"
+            onClick={() => onPokemonSelect  && onPokemonSelect (pokemon)}
+            >
             <h4>{pokemon.name}</h4>
-            <img src={pokemon.image} alt={pokemon.name} style={{ width: "40px" }} />
+            <img src={pokemon.image} alt={pokemon.name} style={{ width: "120px" }} />
+            <p>Tipos: {pokemon.types.join(", ")}</p>
+            <p><strong>ID:</strong> #{pokemon.id}</p>
+            <p><strong>Habilidades:</strong> {pokemon.abilities.join(", ")}</p>
           </div>
         ))
       )}
     </div>
-  );
+  ); 
 }
+     
