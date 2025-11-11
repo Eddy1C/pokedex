@@ -1,5 +1,5 @@
-* {
-  box-sizing: border-box;
+.fondo{
+  background-color: #474f5f;
 }
 
 .filtrar{
@@ -10,29 +10,12 @@
     padding: 10px; 
     margin: 10px auto;
     background-color: black;  
-    background-size: -50px; 
+    background-size: -50px;
+    text-decoration-color: blueviolet;
     text-align: center; 
-    text-transform: capitalize;     
+    text-transform: capitalize;
+         
   }
-/*
-.styleList {
-  border: 2px solid #ccc;
-  border-radius: 11px;
-  border-color: #c72c8c;
-  background:""; 
-  padding: 10px;
-  margin: 10px;
-  width: 150px;
-  cursor: pointer;
-  text-align: center;
-  box-shadow: 2px 2px 12px rgba(129, 3, 3, 0.1);
-  transition: transform 0.2s; 
-  max-width: 300px;
-  width: fit-content;
-  padding: 50px;
-  margin: 50px auto;
-}*/
-
 
 .styleList {
   border: 2px solid rgba(255, 0, 0, 0.3); 
@@ -74,46 +57,60 @@
 .buscar{
     display: flex; 
     flex-wrap: wrap; 
-    gap: 12px;
-    border-radius: 6%;  
+    gap: 20px;
+    border-radius: 20%;  
     padding: 1%; 
-    margin: auto;
-    box-shadow: 2px 2px 12px rgba(121, 2, 2, 0.726);
-    background-size: -40px; 
+    margin: 0 auto 30px auto;
+    max-width: max-content;
+    box-shadow: 4px 4px 13px rgba(121, 2, 2, 0.726);
     background-color: rgb(10, 119, 119);
     text-align: center; 
     text-transform: lowercase;   
     animation: rgbGlow 3s infinite alternate;
 }
 
-.listaGeneral{
-  border: 2px solid #ccc;
-  border-radius: 11px;
-  border-color: #61dafb;
-  padding: 10px;
-  margin: 10px;
-  width: 150px;
-  cursor: pointer;
-  text-align: center;
-  box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
-  transition: transform 0.2s; 
-  max-width: 300px;
-  width: fit-content;
-  padding: 50px;
-  margin: 50px auto;
-}
-    
-.App {
-  text-align: center;
+.buscar input {
+    padding: 12px 15px;       
+    font-size: 1.2rem;        
+    border-radius: 10px;      
+    border: none;
+    width: 250px;
+    max-width: 80vw; 
+
 }
 
-.App-logo {
+.buscar button {
+    padding: 14px 25px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.listaGeneral {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, max-content));
+  gap: 20px;
+  justify-content: center;
   
-}
+  border: 2px solid #61dafb;
+  border-radius: 11px;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  width: fit-content;
+  margin: 50px auto; 
+  padding: 50px;
+}
+   
+
+@media (min-width: 1200px) {
+  .listaGeneracion{
+    grid-template-columns: repeat(5, 2000px);
+    max-width: 1200px;
+    justify-content: center; 
+    margin: 0 auto; 
   }
 }
 
@@ -128,15 +125,48 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.titulo img{
+  width: 400px;
+  display: block;
+  margin: 0 auto;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.poke-imagen {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.poke-imagen::before {
+  content: "";
+  position: absolute;
+  inset: 0; 
+  border-radius: 100%;
+  border: 2px solid transparent; 
+  background: conic-gradient(
+    from 0deg,
+    rgba(225, 228, 230, 0.1), rgba(7, 148, 141, 0.1), rgb(0, 255, 242), rgba(61, 182, 219, 0.1), rgba(61, 182, 219, 0.1), 
+    rgb(0, 255, 242), rgba(61, 182, 219, 0.1), rgba(61, 182, 219, 0.1), rgb(0, 255, 242)
+  );
+ -webkit-mask: radial-gradient(circle 91px, transparent 91%, black 91%);
+  mask: radial-gradient(circle 91px, transparent 91%, black 91%);
+  z-index: 0;
+  animation: spin 3s linear infinite; 
+}
+
+.poke-imagen img {
+  width: 80%;
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+

@@ -1,15 +1,14 @@
 
 .pokemon-container {
   position: relative;
-  width: 200px;
-  height: 200px;
-  margin: 0 auto;
+  height: 350px;
+  margin: 2 auto;
 }
 
 .circulo-animado {
   position: absolute;
-  top: 44%;
-  left: 55%;
+  top: 48%;
+  left: 50%;
   width: 450px;
   height: 445px;
   border-radius: 400%;
@@ -18,7 +17,7 @@
   border-top: 25px solid #00ffff; 
   border-image: linear-gradient (45deg, red, orange, yellow, green, cyan, blue, violet);
   animation: girar 1.3s linear infinite, rgbGlow 3s linear infinite;
-  z-index: 1;  
+  z-index: 1;    
 }
 
 @keyframes girar {
@@ -30,8 +29,170 @@
   }
 }
 
+
 @keyframes rgbGlow {
   0% { filter: hue-rotate(0deg); }
   100% { filter: hue-rotate(360deg); }
   
+}
+
+@media (max-width: 768px) {
+  .contenido-pokemon {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .lado-derecho {
+    text-align: center;
+  }
+}
+
+@keyframes rainbowGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.informacion-pokemon {
+  
+  background-image: url(https://www.pixelstalk.net/wp-content/uploads/2025/07/A-serene-landscape-with-Pokemon-in-their-natural-habitat-perfect-as-a-HD-wallpaper.jpg);
+  transition: transform 0.2s, box-shadow 0.3s; 
+  animation: rainbowGlow 60s linear infinite;
+  background-size: 200% 200%;
+  
+  background-repeat:  no-repeat;
+  color: rgb(0, 0, 0);
+  font-weight: 900;
+  border-radius: 0;
+  padding: 40px;
+  width: 2000px;
+  height: 100vh;
+  margin: 0px ;
+  box-shadow: none; 
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.3s; 
+}
+
+.informacion-pokemon:hover {
+  transform: translateY(-40px);  
+}
+
+
+
+.informacion-pokemon button {
+  background-color: #d8e3e6;
+  color: #680000;
+  border: none;
+  padding: 20px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s ease, transform 0.2s ease;
+  margin-right: 120px;
+}
+
+.informacion-pokemon button:hover {
+  background-color: #00bcd4;
+  transform: scale(1.05);
+}
+
+.informacion-pokemon p {
+  margin: 30px 0;
+  font-size: 2rem;
+}
+
+.informacion-pokemon h3 {
+  margin-top: 50px;
+  color: #000000;
+  font-weight: 900;
+}
+
+.informacion-pokemon ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  color: rgb(7, 7, 7);
+}
+
+.informacion-pokemon li {
+  margin: 10px 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px; 
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.contenido-pokemon {
+  display: flex;
+  align-items: center; 
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.lado-izquierdo {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lado-derecho {
+  flex: 1.3;
+  text-align: left;
+}
+
+.lado-derecho h2 {
+  font-size: 2rem;
+  color: #490303;
+  font-weight: 900;
+  margin-bottom: 15px;
+  text-transform: capitalize;
+}
+
+.lado-derecho p {
+  margin: 6px 0;
+  font-size: 1rem;
+  color: #680000;
+}
+
+.lado-derecho strong {
+  color: #000000;
+
+}
+
+.lado-derecho ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 5px;
+}
+
+.lado-derecho li {
+  background: rgb(48, 135, 146);
+  border-radius: 8px;
+  padding: 6px 10px;
+  position: relative;
+  overflow: hidden;
+  width: 400px;            
+}
+
+.lado-derecho li {
+  margin: 11px;
+}
+
+.lado-derecho li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: var(--valor, 50%);
+  background: linear-gradient(90deg, #fff9f9, #fdfdfd);
+  opacity: 0.4;
+  border-radius: 10px;
 }
